@@ -55,7 +55,6 @@
         "filesbundle": "rollup -c"
     },
     "dependencies": {
-        "@cloudflare/voprf-ts": "0.21.2",
-        "@noble/hashes": "1.4.0"
+        "@cloudflare/voprf-ts": "0.21.2"
     }
 }

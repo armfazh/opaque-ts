@@ -5,9 +5,9 @@ import fs from 'fs'
 const LICENSE = fs.readFileSync('./LICENSE.txt', { encoding: 'utf8', flag: 'r' })
 
 export default [
-    { name: 'client', input: './lib/src/index.js', output: 'dist/full.mjs' },
-    { name: 'server', input: './lib/src/opaque_client.js', output: 'dist/client.mjs' },
-    { name: 'full', input: './lib/src/opaque_server.js', output: 'dist/server.mjs' }
+    { name: 'full', input: './lib/src/index.js', output: 'dist/full.mjs' },
+    { name: 'client', input: './lib/src/client.js', output: 'dist/client.mjs' },
+    { name: 'server', input: './lib/src/server.js', output: 'dist/server.mjs' }
 ].map((value) => {
     return {
         input: value.input,

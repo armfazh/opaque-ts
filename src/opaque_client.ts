@@ -12,26 +12,10 @@ import type {
 } from './messages.js'
 import { KE3 } from './messages.js'
 import type { KSFFn } from './thecrypto.js'
-import { ScryptKSFFn } from './thecrypto.js'
 
 import { AKE3DHClient } from './3dh_client.js'
 import type { Config } from './config.js'
 import { OpaqueCoreClient } from './core_client.js'
-
-export interface RegistrationClient {
-    registerInit(password: string): Promise<RegistrationRequest | Error>
-    registerFinish(
-        response: RegistrationResponse,
-        server_identity?: string,
-        client_identity?: string
-    ): Promise<
-        | {
-              record: RegistrationRecord
-              export_key: number[]
-          }
-        | Error
-    >
-}
 
 export interface AuthClient {
     authInit(password: string): Promise<KE1 | Error>
@@ -69,7 +53,7 @@ export class OpaqueClient implements RegistrationClient, AuthClient {
 
     constructor(
         public readonly config: Config,
-        ksf: KSFFn = ScryptKSFFn
+        ksf: KSFFn
     ) {
         this.status = OpaqueClient.States.NEW
         this.opaque_core = new OpaqueCoreClient(config, ksf)

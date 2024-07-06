@@ -72,3 +72,7 @@ export function expectNotError<T>(value: T | Error): asserts value is T {
 export function expectToBeError<T>(value: T | Error): asserts value is Error {
     expect(value).toBeInstanceOf(Error)
 }
+
+export function expectToBeDefined<T>(value: T | undefined): asserts value is T {
+    expect(value).toBeDefined()
+}

@@ -5,7 +5,7 @@
 
 import { fromHex, toHex } from './common.js'
 
-import { Hkdf } from '../src/thecrypto.js'
+import { Hkdf } from '../src/kdf_mac_hash.js'
 import vectors from './testdata/hkdf.json'
 
 describe.each(vectors)('HKDF', (vector: (typeof vectors)[number]) => {

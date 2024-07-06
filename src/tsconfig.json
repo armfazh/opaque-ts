@@ -1,6 +1,22 @@
 {
     "extends": "../tsconfig.json",
     "include": [
-        "."
+        "./serde.ts",
+        "./util.ts",
+        "./constants.ts",
+        "./deps.ts",
+        "./kdf_mac_hash.ts",
+        "./oprf.ts",
+        "./dh.ts",
+        "./config.ts",
+        "./key_recovery.ts",
+        "./registration.ts",
+        "./credential.ts",
+        "./ake_messages.ts",
+        "./ake.ts",
+        "./authentication.ts",
+        "./client.ts",
+        "./server.ts",
+        "./index.ts"
     ]
 }

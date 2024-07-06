@@ -3,72 +3,57 @@
 // Licensed under the BSD-3-Clause license found in the LICENSE file or
 // at https://opensource.org/licenses/BSD-3-Clause
 
-import type { Result } from './common.js'
-import { AKE3DH, Err, OPRFBaseMode, Ok } from './common.js'
-import type { AKEFn, HashFn, KDFFn, MACFn, OPRFFn, PrngFn } from './thecrypto.js'
-import { Hash, Hkdf, Hmac, Prng } from './thecrypto.js'
-import type { SuiteID } from '@cloudflare/voprf-ts'
-import { Oprf } from '@cloudflare/voprf-ts'
+// export class OpaqueConfig {
+//     readonly constants: {
+//         readonly Nn: number
+//         readonly Nseed: number
+//     }
 
-import type { Config } from './config.js'
+//     readonly oprf: OPRFFn
 
-export enum OpaqueID {
-    OPAQUE_P256 = 'P256-SHA256',
-    OPAQUE_P384 = 'P384-SHA384',
-    OPAQUE_P521 = 'P521-SHA512'
-}
+//     readonly hash: HashFn
 
-export class OpaqueConfig implements Config {
-    readonly constants: {
-        readonly Nn: number
-        readonly Nseed: number
-    }
+//     readonly mac: MACFn
 
-    readonly prng: PrngFn
+//     readonly kdf: KDFFn
 
-    readonly oprf: OPRFFn
+//     readonly ake: AKEFn
 
-    readonly hash: HashFn
+//     readonly ksf: KSFFn
 
-    readonly mac: MACFn
+//     constructor(public readonly opaqueID: OpaqueID) {
+//         let oprfID: SuiteID
+//         switch (opaqueID) {
+//             case OpaqueID.OPAQUE_P256:
+//                 oprfID = Oprf.Suite.P256_SHA256
+//                 break
+//             case OpaqueID.OPAQUE_P384:
+//                 oprfID = Oprf.Suite.P384_SHA384
+//                 break
+//             case OpaqueID.OPAQUE_P521:
+//                 oprfID = Oprf.Suite.P521_SHA512
+//                 break
+//             default:
+//                 throw new Error(`invalid OpaqueID ${opaqueID}`)
+//         }
 
-    readonly kdf: KDFFn
+//         this.constants = { Nn: 32, Nseed: 32 }
+//         this.oprf = new OPRFBaseMode(oprfID)
+//         this.hash = new Hash(this.oprf.hash)
+//         this.mac = new Hmac(this.hash.name)
+//         this.kdf = new Hkdf(this.hash.name)
+//         this.ake = new AKE3DH(oprfID)
+//         this.ksf = IdentityKSFFn
+//     }
 
-    readonly ake: AKEFn
+//     static fromString(opaqueID: string): Result<Readonly<Config>, Error> {
+//         if (!Object.values<string>(OpaqueID).includes(opaqueID)) {
+//             return Err(new Error(`OpaqueID ${opaqueID} not supported`))
+//         }
+//         return Ok(new OpaqueConfig(opaqueID as OpaqueID))
+//     }
 
-    constructor(public readonly opaqueID: OpaqueID) {
-        let oprfID: SuiteID
-        switch (opaqueID) {
-            case OpaqueID.OPAQUE_P256:
-                oprfID = Oprf.Suite.P256_SHA256
-                break
-            case OpaqueID.OPAQUE_P384:
-                oprfID = Oprf.Suite.P384_SHA384
-                break
-            case OpaqueID.OPAQUE_P521:
-                oprfID = Oprf.Suite.P521_SHA512
-                break
-            default:
-                throw new Error(`invalid OpaqueID ${opaqueID}`)
-        }
-
-        this.constants = { Nn: 32, Nseed: 32 }
-        this.prng = new Prng()
-        this.oprf = new OPRFBaseMode(oprfID)
-        this.hash = new Hash(this.oprf.hash)
-        this.mac = new Hmac(this.hash.name)
-        this.kdf = new Hkdf(this.hash.name)
-        this.ake = new AKE3DH(oprfID)
-    }
-
-    static fromString(opaqueID: string): Result<Readonly<Config>, Error> {
-        if (!Object.values<string>(OpaqueID).includes(opaqueID)) {
-            return Err(new Error(`OpaqueID ${opaqueID} not supported`))
-        }
-        return Ok(new OpaqueConfig(opaqueID as OpaqueID))
-    }
-
-    toString(): string {
-        return `${this.opaqueID} = {` + `OPRF: ${this.oprf.name}, ` + `Hash: ${this.hash.name}}`
-    }
-}
+//     toString(): string {
+//         return `${this.opaqueID} = {` + `OPRF: ${this.oprf.name}, ` + `Hash: ${this.hash.name}}`
+//     }
+// }

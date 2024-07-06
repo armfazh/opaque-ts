@@ -3,7 +3,7 @@
 // Licensed under the BSD-3-Clause license found in the LICENSE file or
 // at https://opensource.org/licenses/BSD-3-Clause
 
-export function joinAll(a: Uint8Array[]): Uint8Array {
+export function joinAll(...a: Uint8Array[]): Uint8Array {
     let size = 0
     for (const ai of a) {
         size += ai.length
@@ -50,7 +50,7 @@ function decode_number(a: Uint8Array, bits: number): number {
 }
 
 function encode_vector(a: Uint8Array, bits_header: number): Uint8Array {
-    return joinAll([encode_number(a.length, bits_header), a])
+    return joinAll(encode_number(a.length, bits_header), a)
 }
 
 function decode_vector(
@@ -120,3 +120,11 @@ export function ctEqual(a: Uint8Array, b: Uint8Array): boolean {
     }
     return c === 0
 }
+
+export type Result<T> = T | Error
+export const Result = {
+    Ok: <T>(v: T): Result<T> => v,
+    Err: <T>(e: Error): Result<T> => e,
+    isOk: <T>(res: Result<T>): res is T => !(res instanceof Error),
+    isErr: <T>(res: Result<T>): res is Error => res instanceof Error
+} as const
